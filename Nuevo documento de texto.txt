@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bien venido a mi pagina web</title>
+    <style>
+        body {
+            background-color: rgba(173, 216, 230, 0.3); /* celeste más apagado */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #000000; /* negro */
+            text-align: center;
+            padding: 30px 10px;
+        }
+        header h1 {
+            color: white;
+            font-weight: bold;
+            margin: 0;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            color: black;
+        }
+        h2 {
+            font-weight: bold;
+            color: black;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+        #vida {
+            background-color: #f0f0f0; /* Gris claro */
+        }
+        #pasatiempos {
+            background-color: #d1ffd1; /* verde claro */
+        }
+        #equipo {
+            background-color: #ffffcc; /* amarillo pálido */
+        }
+        #lugares {
+            background-color: #d1e0ff; /* azul claro */
+        }
+        #familia {
+            background-color: #ffe0b3; /* naranja muy claro */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Bien venido a mi pagina web</h1>
+    </header>
+
+    <section id="vida">
+        <h2>Mi vida</h2>
+        <p>Mi nombre es Victor Flores, tengo 19 años, me gradue de la carrera de Perito en administracion de empresas, soy una persona que a pesar de los obstaculos que me encuentro en la vida nunca me rindo, siempre busco hacer lo mejor en todos los aspectos de mi vida, trabajo en Impala una empresa que se encarga en vender combustibles yo soy el operador de Rack, basicamente yo soy el que llena los camiones, me gusta mi trabajo pero primero Dios conseguire mejores trabajos en el futuro, estoy estudiando una ingenieria en sistemas voy por el primer semestre y me esta costando un poco pero no pienso rendirme dare mi maximo potencial y llegar a cumplir mi sueño de graduarme como ingeniero.</p>
+        <img src="HTML/_WMF6068.jpg" alt="Mi vida">
+    </section>
+
+    <section id="pasatiempos">
+        <h2>Pasatiempos favoritos</h2>
+        <p>Disfruto mucho de la música, los videojuegos, caminar al aire libre, ver películas y aprender nuevas habilidades en línea.</p>
+        <img src="https://via.placeholder.com/600x300?text=Pasatiempos" alt="Pasatiempos favoritos">
+    </section>
+
+    <section id="equipo">
+        <h2>Equipo de fútbol favorito</h2>
+        <p>Mi equipo favorito es el FC Barcelona. Me encanta su historia, filosofía de juego y grandes jugadores como Messi, Xavi e Iniesta.</p>
+        <img src="https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg" alt="FC Barcelona" style="width: 150px;">
+    </section>
+
+    <section id="lugares">
+        <h2>Lugares que quisiera conocer</h2>
+        <p>Quisiera visitar Japón, Italia y Noruega. Me fascinan sus culturas, paisajes y lo diferentes que son entre sí.</p>
+        <img src="https://via.placeholder.com/600x300?text=Japón,+Italia+y+Noruega" alt="Lugares por conocer">
+    </section>
+
+    <section id="familia">
+        <h2>Mi familia</h2>
+        <p>Mi familia es un pilar fundamental en mi vida. Siempre están para apoyarme y compartimos muchos momentos especiales juntos.</p>
+        <img src="https://via.placeholder.com/600x300?text=Mi+familia" alt="Mi familia">
+    </section>
+
+</body>
+</html>
