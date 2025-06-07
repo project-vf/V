@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pepito Futurista</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      background-attachment: fixed;
+      color: #ffffff;
+    }
+
+    .futuristic-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.08);
+      padding: 2rem;
+    }
+
+    .glow-title {
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 8px #00f2fe;
+      color: #00f2fe;
+    }
+
+    .neon-btn {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      box-shadow: 0 0 12px #00f2fe, 0 0 20px #4facfe;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .neon-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00f2fe, 0 0 35px #4facfe;
+    }
+
+    .progress-bar {
+      height: 16px;
+      border-radius: 9999px;
+      transition: width 0.4s ease;
+    }
+
+    .chart-container canvas {
+      border-radius: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1rem;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body class="p-6">
+  <div class="max-w-5xl mx-auto space-y-10">
+    <div class="futuristic-card">
+      <h1 class="text-4xl text-center glow-title font-bold">PEPITO</h1>
+      <p class="text-center text-gray-300 mt-2">Simulación del Progreso Universitario</p>
+      <p class="text-center text-teal-300 mt-2" id="diasSimulados">Días Simulados: 0</p>
+
+      <div class="space-y-6 mt-6">
+        <div>
+          <p>📚 Tareas: <span id="tareasValor">30</span>%</p>
+          <div class="w-full bg-gray-800 rounded-full overflow-hidden">
+            <div id="tareasBar" class="progress-bar bg-cyan-400" style="width: 30%;"></div>
+          </div>
+        </div>
+        <div>
+          <p>😵 Estrés: <span id="estresValor">90</span>/100</p>
+          <div class="w-full bg-gray-800 rounded-full overflow-hidden">
+            <div id="estresBar" class="progress-bar bg-pink-500" style="width: 10%;"></div>
+          </div>
+        </div>
+        <div>
+          <p>💤 Sueño: <span id="suenoValor">3</span> h</p>
+          <div class="w-full bg-gray-800 rounded-full overflow-hidden">
+            <div id="suenoBar" class="progress-bar bg-indigo-400" style="width: 50%;"></div>
+          </div>
+        </div>
+        <div>
+          <p>⚡ Energía: <span id="energiaValor">40</span>/100</p>
+          <div class="w-full bg-gray-800 rounded-full overflow-hidden">
+            <div id="energiaBar" class="progress-bar bg-yellow-400" style="width: 40%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-6">
+        <button onclick="simularDia()" class="neon-btn text-white font-bold px-6 py-2 rounded-full">
+          Simular Día 🔁
+        </button>
+      </div>
+    </div>
+
+    <div class="futuristic-card">
+      <h2 class="text-2xl text-center text-lime-300 font-bold mb-4">📊 Evolución de Pepito</h2>
+      <canvas id="pepitoChart" height="250"></canvas>
+    </div>
+  </div>
+
+  <script>
+    let estado = { tareas: 30, estres: 90, sueno: 3, energia: 40, dias: 0 };
+    const historial = [{ dia: "Día 1", ...estado }];
+
+    const actualizarUI = () => {
+      document.getElementById("diasSimulados").textContent = `Días Simulados: ${estado.dias}`;
+      document.getElementById("tareasValor").textContent = estado.tareas;
+      document.getElementById("estresValor").textContent = estado.estres;
+      document.getElementById("suenoValor").textContent = estado.sueno.toFixed(1);
+      document.getElementById("energiaValor").textContent = estado.energia;
+
+      document.getElementById("tareasBar").style.width = `${estado.tareas}%`;
+      document.getElementById("estresBar").style.width = `${100 - estado.estres}%`;
+      document.getElementById("suenoBar").style.width = `${(estado.sueno / 6) * 100}%`;
+      document.getElementById("energiaBar").style.width = `${estado.energia}%`;
+    };
+
+    const simularDia = () => {
+      estado.tareas = Math.min(estado.tareas + 10, 100);
+      estado.estres = Math.max(estado.estres - 10, 0);
+      estado.sueno = Math.min(estado.sueno + 0.5, 6);
+      estado.energia = Math.min(estado.energia + 5, 100);
+      estado.dias++;
+      historial.push({ dia: `Día ${estado.dias + 1}`, ...estado });
+      actualizarUI();
+      actualizarGrafica();
+    };
+
+    const ctx = document.getElementById('pepitoChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: historial.map(d => d.dia),
+        datasets: [
+          {
+            label: 'Tareas',
+            data: historial.map(d => d.tareas),
+            backgroundColor: '#00f2fe',
+            borderRadius: 8,
+            barThickness: 24
+          },
+          {
+            label: 'Sueño',
+            data: historial.map(d => d.sueno),
+            backgroundColor: '#6366f1',
+            borderRadius: 8,
+            barThickness: 24
+          },
+          {
+            label: 'Energía',
+            data: historial.map(d => d.energia),
+            backgroundColor: '#facc15',
+            borderRadius: 8,
+            barThickness: 24
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#ffffff',
+              font: {
+                size: 14,
+                family: 'Outfit'
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#fff' },
+            grid: { color: 'rgba(255,255,255,0.1)' }
+          },
+          x: {
+            ticks: { color: '#fff' },
+            grid: { color: 'rgba(255,255,255,0.1)' }
+          }
+        }
+      }
+    });
+
+    const actualizarGrafica = () => {
+      chart.data.labels = historial.map(d => d.dia);
+      chart.data.datasets[0].data = historial.map(d => d.tareas);
+      chart.data.datasets[1].data = historial.map(d => d.sueno);
+      chart.data.datasets[2].data = historial.map(d => d.energia);
+      chart.update();
+    };
+
+    actualizarUI();
+  </script>
+</body>
+</html>
